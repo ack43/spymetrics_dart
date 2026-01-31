@@ -1,15 +1,22 @@
 name: spymetrics_dart
-description: A starting point for Dart libraries or applications.
+description: Unofficial Spymetrics API client for Dart
 version: 1.0.0
-# repository: https://github.com/my_org/my_repo
+repository: https://github.com/ack43/
 
 environment:
   sdk: ^3.10.7
 
 # Add regular dependencies here.
 dependencies:
-  # path: ^1.9.0
+  dio: #^5.4.0
+  retrofit: #^4.1.0
+  json_annotation: #^4.9.0
+  copy_with_extension: #^9.0.0
 
 dev_dependencies:
-  lints: ^6.0.0
-  test: ^1.25.6
+  build_runner: #^2.4.9
+  retrofit_generator: #^8.1.0
+  json_serializable: #^6.8.0
+  copy_with_extension_gen: #^9.0.0
+  lints: #^3.0.0
+  test: #^1.25.6

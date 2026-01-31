@@ -6,3 +6,5 @@ library;
 export 'src/spymetrics_dart_base.dart';
 
 // TODO: Export any libraries intended for clients of this package.
+
+export 'package:spymetrics_dart/src/models/request.dart';
