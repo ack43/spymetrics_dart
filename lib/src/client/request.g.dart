@@ -134,35 +134,30 @@ extension $SpymetricsRequestCopyWith on SpymetricsRequest {
 
 SpymetricsRequest _$SpymetricsRequestFromJson(Map<String, dynamic> json) =>
     SpymetricsRequest(
-      granularity: $enumDecodeNullable(
-        _$SpymetricsGranularityEnumMap,
-        json['granularity'],
+      granularity: const SpymetricsGranularityConverter().fromJson(
+        json['granularity'] as String?,
       ),
       mainDomainOnly: json['main_domain_only'] as bool?,
       format: json['format'] as String?,
       domain: json['domain'] as String?,
-      startDate: json['start_date'] == null
-          ? null
-          : SpymetricsDate.fromJson(json['start_date'] as String?),
-      endDate: json['end_date'] == null
-          ? null
-          : SpymetricsDate.fromJson(json['end_date'] as String?),
+      startDate: const SpymetricsDateConverter().fromJson(
+        json['start_date'] as String?,
+      ),
+      endDate: const SpymetricsDateConverter().fromJson(
+        json['end_date'] as String?,
+      ),
       country: json['country'] as String?,
     );
 
 Map<String, dynamic> _$SpymetricsRequestToJson(SpymetricsRequest instance) =>
     <String, dynamic>{
-      'granularity': ?_$SpymetricsGranularityEnumMap[instance.granularity],
+      'granularity': ?const SpymetricsGranularityConverter().toJson(
+        instance.granularity,
+      ),
       'main_domain_only': ?instance.mainDomainOnly,
       'format': ?instance.format,
       'domain': ?instance.domain,
-      'start_date': ?instance.startDate,
-      'end_date': ?instance.endDate,
+      'start_date': ?const SpymetricsDateConverter().toJson(instance.startDate),
+      'end_date': ?const SpymetricsDateConverter().toJson(instance.endDate),
       'country': ?instance.country,
     };
-
-const _$SpymetricsGranularityEnumMap = {
-  SpymetricsGranularity.daily: 'Daily',
-  SpymetricsGranularity.weekly: 'Weekly',
-  SpymetricsGranularity.monthly: 'Monthly',
-};

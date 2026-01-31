@@ -1,19 +1,21 @@
 import 'package:json_annotation/json_annotation.dart';
 
-import './response.dart';
+import '../client/response.dart';
+import '../client/spymetrics_date.dart';
 
 part 'page_per_visit.g.dart';
 
 @JsonSerializable(fieldRename: FieldRename.snake)
-class PagesPerVisitPoint {
-  PagesPerVisitPoint({required this.date, required this.pagesPerVisit});
-  final String? date;
+class PagesPerVisitEntity {
+  PagesPerVisitEntity({required this.date, required this.pagesPerVisit});
+  @SpymetricsDateExtConverter()
+  final SpymetricsDateExt? date;
   final double? pagesPerVisit;
 
-  factory PagesPerVisitPoint.fromJson(Map<String, dynamic> json) =>
-      _$PagesPerVisitPointFromJson(json);
+  factory PagesPerVisitEntity.fromJson(Map<String, dynamic> json) =>
+      _$PagesPerVisitEntityFromJson(json);
 
-  Map<String, dynamic> toJson() => _$PagesPerVisitPointToJson(this);
+  Map<String, dynamic> toJson() => _$PagesPerVisitEntityToJson(this);
 }
 
 //
@@ -22,7 +24,7 @@ class PagesPerVisitPoint {
 
 @JsonSerializable(fieldRename: FieldRename.snake)
 class PagesPerVisitResponse extends SpymetricsResponse {
-  final List<PagesPerVisitPoint>? pagesPerVisit;
+  final List<PagesPerVisitEntity>? pagesPerVisit;
 
   PagesPerVisitResponse({required super.meta, this.pagesPerVisit});
 

@@ -1,6 +1,8 @@
 import 'package:json_annotation/json_annotation.dart';
 import 'package:copy_with_extension/copy_with_extension.dart';
 
+import './spymetrics_date.dart';
+
 part 'request.g.dart';
 
 @CopyWith()
@@ -40,6 +42,31 @@ class SpymetricsRequest {
     this.country,
     this.format = 'json',
   }) : mainDomainOnly = true;
+  //
+  SpymetricsRequest.daily({
+    this.domain,
+    this.startDate,
+    this.endDate,
+    this.country,
+    this.mainDomainOnly = false,
+    this.format = 'json',
+  }) : granularity = SpymetricsGranularity.daily;
+  SpymetricsRequest.weekly({
+    this.domain,
+    this.startDate,
+    this.endDate,
+    this.country,
+    this.mainDomainOnly = false,
+    this.format = 'json',
+  }) : granularity = SpymetricsGranularity.weekly;
+  SpymetricsRequest.monthly({
+    this.domain,
+    this.startDate,
+    this.endDate,
+    this.country,
+    this.mainDomainOnly = false,
+    this.format = 'json',
+  }) : granularity = SpymetricsGranularity.monthly;
 
   factory SpymetricsRequest.fromJson(Map<String, dynamic> json) =>
       _$SpymetricsRequestFromJson(json);
@@ -48,11 +75,14 @@ class SpymetricsRequest {
   //
   //
   //
+  @SpymetricsGranularityConverter()
   final SpymetricsGranularity? granularity;
   final bool? mainDomainOnly;
   final String? format;
   final String? domain;
+  @SpymetricsDateConverter()
   final SpymetricsDate? startDate;
+  @SpymetricsDateConverter()
   final SpymetricsDate? endDate;
   final String? country;
 }
@@ -63,41 +93,39 @@ class SpymetricsRequest {
 @JsonEnum()
 enum SpymetricsGranularity {
   @JsonValue('Daily')
+  // @JsonValue('daily')
   daily,
 
   @JsonValue('Weekly')
+  // @JsonValue('weekly')
   weekly,
 
   @JsonValue('Monthly')
+  // @JsonValue('monthly')
   monthly,
 } // TODO: implement SpymetricsGranularity
 
-///
-///
-///
-class SpymetricsDate {
-  SpymetricsDate({this.date});
-  SpymetricsDate.fromJson(String? dateString) {
-    date = DateTime.parse(dateString!);
-  }
-  DateTime? date;
+// cause of Monthly <-> monthly and etc
+class SpymetricsGranularityConverter
+    implements JsonConverter<SpymetricsGranularity?, String?> {
+  const SpymetricsGranularityConverter();
 
-  int get year => date!.year;
-  int get month => date!.month;
+  static const Map<String, SpymetricsGranularity> _mapping = {
+    'daily': SpymetricsGranularity.daily,
+    'weekly': SpymetricsGranularity.weekly,
+    'monthly': SpymetricsGranularity.monthly,
+  };
 
-  SpymetricsDate add(int months) {
-    date!.add(Duration(days: 31 * months));
-    return this;
-  }
-
-  SpymetricsDate subtract(int months) {
-    date!.subtract(Duration(days: 31 * months));
-    return this;
+  @override
+  SpymetricsGranularity? fromJson(String? json) {
+    if (json == null) return null;
+    return _mapping[json.toLowerCase()];
   }
 
-  SpymetricsDate inc() => add(1);
-
-  SpymetricsDate dec() => subtract(1);
-
-  String toJson() => '$year-${month.toString().padLeft(2, '0')}';
+  @override
+  String? toJson(SpymetricsGranularity? object) {
+    if (object == null) return null;
+    // choose canonical output (lowercase or capitalized)
+    return object.name.toLowerCase();
+  }
 }

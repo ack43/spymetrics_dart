@@ -68,11 +68,87 @@ Dio _createDio({
   dio.interceptors.add(
     InterceptorsWrapper(
       onRequest: (options, handler) {
+        // print('➡️ onRequest: ${options.path} - adding api_key $apiKey');
         options.queryParameters['api_key'] = apiKey;
+        // print('➡️ uri => ${options.uri}');
         handler.next(options);
       },
     ),
   );
 
+  // TODO: correct exceptions
+  dio.interceptors.add(
+    InterceptorsWrapper(
+      onError: (error, handler) {
+        // print('⚠️ onError: $error');
+        final response = error.response;
+        if (response == null) {
+          handler.reject(
+            DioException(
+              requestOptions: error.requestOptions,
+              error: error.error,
+            ),
+          );
+          // handler.next(error);
+          return;
+        }
+        // Check for API-level errors in JSON
+        // print("response.data['meta']");
+        // print(response.data['meta']);
+        if (response.data['meta']?['status'] != 'Success') {
+          handler.reject(
+            DioException(
+              requestOptions: response.requestOptions,
+              error: SpymetricsApiException(
+                httpCode: response.statusCode,
+                status: response.data['meta']['status'],
+                code: response.data['meta']['error_code'],
+                message:
+                    response.data['meta']['error_message'] ?? 'Unknown error',
+              ),
+            ),
+          );
+          return;
+        }
+        handler.next(error);
+      },
+      onResponse: (response, handler) {
+        // Check for API-level errors in JSON
+        // print("response.data['meta']");
+        // print(response.data['meta']);
+        if (response.data['meta']?['status'] != 'Success') {
+          handler.reject(
+            DioException(
+              requestOptions: response.requestOptions,
+              error: SpymetricsApiException(
+                httpCode: response.statusCode,
+                status: response.data['meta']['status'],
+                code: response.data['meta']['error_code'],
+                message:
+                    response.data['meta']['error_message'] ?? 'Unknown error',
+              ),
+            ),
+          );
+          return;
+        }
+        handler.next(response);
+      },
+    ),
+  );
+
   return dio;
+}
+
+//// TODO: not work now
+class SpymetricsApiException implements Exception {
+  final int? httpCode;
+  final String? status;
+  final int? code;
+  final String? message;
+
+  SpymetricsApiException({this.httpCode, this.status, this.code, this.message});
+
+  @override
+  String toString() =>
+      'SpymetricsApiException($httpCode | $code)[$status]: $message';
 }

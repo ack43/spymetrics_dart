@@ -6,13 +6,16 @@ part of 'visit.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-VisitPoint _$VisitPointFromJson(Map<String, dynamic> json) => VisitPoint(
-  date: json['date'] as String?,
+VisitEntity _$VisitEntityFromJson(Map<String, dynamic> json) => VisitEntity(
+  date: const SpymetricsDateExtConverter().fromJson(json['date'] as String?),
   visits: (json['visits'] as num?)?.toDouble(),
 );
 
-Map<String, dynamic> _$VisitPointToJson(VisitPoint instance) =>
-    <String, dynamic>{'date': instance.date, 'visits': instance.visits};
+Map<String, dynamic> _$VisitEntityToJson(VisitEntity instance) =>
+    <String, dynamic>{
+      'date': const SpymetricsDateExtConverter().toJson(instance.date),
+      'visits': instance.visits,
+    };
 
 VisitsResponse _$VisitsResponseFromJson(Map<String, dynamic> json) =>
     VisitsResponse(
@@ -20,7 +23,7 @@ VisitsResponse _$VisitsResponseFromJson(Map<String, dynamic> json) =>
         json['meta'] as Map<String, dynamic>,
       ),
       visits: (json['visits'] as List<dynamic>?)
-          ?.map((e) => VisitPoint.fromJson(e as Map<String, dynamic>))
+          ?.map((e) => VisitEntity.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
 

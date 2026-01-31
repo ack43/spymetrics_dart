@@ -1,5 +1,6 @@
 import 'package:json_annotation/json_annotation.dart';
 
+import './spymetrics_date.dart';
 import './request.dart';
 
 part 'response.g.dart';
@@ -18,7 +19,8 @@ abstract class SpymetricsResponse {
 class SpymetricsResponseMeta {
   final SpymetricsRequest request;
   final String status;
-  final DateTime? lastUpdated;
+  @SpymetricsDateExtConverter()
+  final SpymetricsDateExt? lastUpdated;
   final int? hitCost;
 
   @JsonKey(name: 'error_code')
