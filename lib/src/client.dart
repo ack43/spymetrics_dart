@@ -5,6 +5,7 @@ import 'package:dio/io.dart';
 // APIS:
 import 'api/total_traffic.dart';
 import 'api/desktop_traffic.dart';
+import 'api/mobile_traffic.dart';
 
 // Client
 
@@ -45,6 +46,9 @@ class SpymetricsApi {
 
   DesktopTrafficApi get desktopTraffic =>
       DesktopTrafficApi(_dio, baseUrl: _dio.options.baseUrl);
+
+  MobileTrafficApi get mobileTraffic =>
+      MobileTrafficApi(_dio, baseUrl: _dio.options.baseUrl);
 }
 
 ///
