@@ -3,7 +3,8 @@ import 'package:dio/dio.dart';
 import 'package:dio/io.dart';
 
 // APIS:
-import 'api/total_traffic_and_engagement.dart';
+import 'api/total_traffic.dart';
+import 'api/desktop_traffic.dart';
 
 // Client
 
@@ -38,9 +39,17 @@ class SpymetricsClient {
 class SpymetricsApi {
   SpymetricsApi(this._dio);
   final Dio _dio;
-  TotalTrafficAndEngagementApi get totalTrafficAndEngagement =>
-      TotalTrafficAndEngagementApi(_dio, baseUrl: _dio.options.baseUrl);
+
+  TotalTrafficApi get totalTraffic =>
+      TotalTrafficApi(_dio, baseUrl: _dio.options.baseUrl);
+
+  DesktopTrafficApi get desktopTraffic =>
+      DesktopTrafficApi(_dio, baseUrl: _dio.options.baseUrl);
 }
+
+///
+///
+///
 
 /// utils
 ///

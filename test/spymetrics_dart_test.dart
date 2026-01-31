@@ -38,71 +38,57 @@ void main() {
     });
 
     test('First Test (/visits)', () async {
-      final visitsResponse = await spymetricsClient
-          .api
-          .totalTrafficAndEngagement
-          .visits("amazon.com", SpymetricsRequest.json());
+      final visitsResponse = await spymetricsClient.api.totalTraffic.visits(
+        "amazon.com",
+        SpymetricsRequest.json(),
+      );
       print(visitsResponse.visits?.map((v) => v.visits));
     });
 
     test('First Test (/visits) with day(SpymetricsDateExt)', () async {
-      final visitsResponse = await spymetricsClient
-          .api
-          .totalTrafficAndEngagement
-          .visits(
-            "amazon.com",
-            SpymetricsRequest.json(
-              endDate: SpymetricsDateExt(
-                DateTime.now().subtract(Duration(days: 50)),
-              ),
-            ),
-          );
+      final visitsResponse = await spymetricsClient.api.totalTraffic.visits(
+        "amazon.com",
+        SpymetricsRequest.json(
+          endDate: SpymetricsDateExt(
+            DateTime.now().subtract(Duration(days: 50)),
+          ),
+        ),
+      );
       print(visitsResponse.visits?.map((v) => v.toJson()));
     });
 
     test('First Test (/visits) weekly', () async {
-      final visitsResponse = await spymetricsClient
-          .api
-          .totalTrafficAndEngagement
-          .visits(
-            "amazon.com",
-            SpymetricsRequest.weekly(
-              endDate: SpymetricsDateExt(
-                DateTime.now().subtract(Duration(days: 50)),
-              ),
-            ),
-          );
+      final visitsResponse = await spymetricsClient.api.totalTraffic.visits(
+        "amazon.com",
+        SpymetricsRequest.weekly(
+          endDate: SpymetricsDateExt(
+            DateTime.now().subtract(Duration(days: 50)),
+          ),
+        ),
+      );
       print(visitsResponse.visits?.map((v) => v.toJson()));
     });
 
     test('First Test (/visits) monthly', () async {
-      final visitsResponse = await spymetricsClient
-          .api
-          .totalTrafficAndEngagement
-          .visits(
-            "amazon.com",
-            SpymetricsRequest.monthly(
-              endDate: SpymetricsDateExt(
-                DateTime.now().subtract(Duration(days: 50)),
-              ),
-            ),
-          );
+      final visitsResponse = await spymetricsClient.api.totalTraffic.visits(
+        "amazon.com",
+        SpymetricsRequest.monthly(
+          endDate: SpymetricsDateExt(
+            DateTime.now().subtract(Duration(days: 50)),
+          ),
+        ),
+      );
       print(visitsResponse.visits?.map((v) => v.toJson()));
     });
 
     test('First failed Test /visits', () async {
       try {
-        final visitsResponse = await spymetricsClient
-            .api
-            .totalTrafficAndEngagement
-            .visits(
-              "amazon.com",
-              SpymetricsRequest.json(
-                endDate: SpymetricsDateExt(
-                  DateTime.now().add(Duration(days: 500)),
-                ),
-              ),
-            );
+        final visitsResponse = await spymetricsClient.api.totalTraffic.visits(
+          "amazon.com",
+          SpymetricsRequest.json(
+            endDate: SpymetricsDateExt(DateTime.now().add(Duration(days: 500))),
+          ),
+        );
         print(visitsResponse.visits?.map((v) => v.visits));
       } catch (e) {
         expect(e, isA<DioException>());
@@ -117,17 +103,12 @@ void main() {
 
     test('First failed Test 2 /visits', () async {
       try {
-        final visitsResponse = await spymetricsClient
-            .api
-            .totalTrafficAndEngagement
-            .visits(
-              "amazon.com",
-              SpymetricsRequest.json(
-                endDate: SpymetricsDateExt(
-                  DateTime.now().add(Duration(days: 500)),
-                ),
-              ),
-            );
+        final visitsResponse = await spymetricsClient.api.totalTraffic.visits(
+          "amazon.com",
+          SpymetricsRequest.json(
+            endDate: SpymetricsDateExt(DateTime.now().add(Duration(days: 500))),
+          ),
+        );
 
         print(visitsResponse.visits?.map((v) => v.visits));
       } on SpymetricsApiException catch (e) {

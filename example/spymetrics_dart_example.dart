@@ -4,7 +4,7 @@ import 'package:dio/dio.dart';
 void main() async {
   final apiKey = 'demo';
   final spymetricsClient = SpymetricsClient(apiKey);
-  spymetricsClient.api.totalTrafficAndEngagement.visits(
+  spymetricsClient.api.totalTraffic.visits(
     "amazon.com",
     SpymetricsRequest.json(),
   );
@@ -12,13 +12,12 @@ void main() async {
   //
   //
   try {
-    final visitsResponse = await spymetricsClient.api.totalTrafficAndEngagement
-        .visits(
-          "amazon.com",
-          SpymetricsRequest.json(
-            endDate: SpymetricsDateExt(DateTime.now().add(Duration(days: 500))),
-          ),
-        );
+    final visitsResponse = await spymetricsClient.api.totalTraffic.visits(
+      "amazon.com",
+      SpymetricsRequest.json(
+        endDate: SpymetricsDateExt(DateTime.now().add(Duration(days: 500))),
+      ),
+    );
     print(visitsResponse.visits?.map((v) => v.visits));
   } catch (e) {
     print(e.runtimeType);
@@ -32,13 +31,12 @@ void main() async {
   //
   //
   try {
-    final visitsResponse = await spymetricsClient.api.totalTrafficAndEngagement
-        .visits(
-          "amazon.com",
-          SpymetricsRequest.json(
-            endDate: SpymetricsDateExt(DateTime.now().add(Duration(days: 500))),
-          ),
-        );
+    final visitsResponse = await spymetricsClient.api.totalTraffic.visits(
+      "amazon.com",
+      SpymetricsRequest.json(
+        endDate: SpymetricsDateExt(DateTime.now().add(Duration(days: 500))),
+      ),
+    );
 
     print(visitsResponse.visits?.map((v) => v.visits));
   } on SpymetricsApiException catch (e) {

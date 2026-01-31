@@ -16,6 +16,7 @@ class SpymetricsRequest {
     this.startDate,
     this.endDate,
     this.country,
+    this.limit,
   });
   SpymetricsRequest.json({
     this.granularity,
@@ -24,6 +25,7 @@ class SpymetricsRequest {
     this.startDate,
     this.endDate,
     this.country,
+    this.limit,
   }) : format = 'json';
   SpymetricsRequest.xml({
     this.granularity,
@@ -32,6 +34,7 @@ class SpymetricsRequest {
     this.startDate,
     this.endDate,
     this.country,
+    this.limit,
   }) : format = 'xml';
   //
   SpymetricsRequest.mainDomainOnly({
@@ -41,6 +44,7 @@ class SpymetricsRequest {
     this.endDate,
     this.country,
     this.format = 'json',
+    this.limit,
   }) : mainDomainOnly = true;
   //
   SpymetricsRequest.daily({
@@ -50,6 +54,7 @@ class SpymetricsRequest {
     this.country,
     this.mainDomainOnly = false,
     this.format = 'json',
+    this.limit,
   }) : granularity = SpymetricsGranularity.daily;
   SpymetricsRequest.weekly({
     this.domain,
@@ -58,6 +63,7 @@ class SpymetricsRequest {
     this.country,
     this.mainDomainOnly = false,
     this.format = 'json',
+    this.limit,
   }) : granularity = SpymetricsGranularity.weekly;
   SpymetricsRequest.monthly({
     this.domain,
@@ -66,6 +72,7 @@ class SpymetricsRequest {
     this.country,
     this.mainDomainOnly = false,
     this.format = 'json',
+    this.limit,
   }) : granularity = SpymetricsGranularity.monthly;
 
   factory SpymetricsRequest.fromJson(Map<String, dynamic> json) =>
@@ -85,6 +92,7 @@ class SpymetricsRequest {
   @SpymetricsDateConverter()
   final SpymetricsDate? endDate;
   final String? country;
+  final int? limit;
 }
 
 ///

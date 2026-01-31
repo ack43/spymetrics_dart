@@ -21,6 +21,8 @@ abstract class _$SpymetricsRequestCWProxy {
 
   SpymetricsRequest country(String? country);
 
+  SpymetricsRequest limit(int? limit);
+
   /// Creates a new instance with the provided field values.
   /// Passing `null` to a nullable field nullifies it, while `null` for a non-nullable field is ignored. To update a single field use `SpymetricsRequest(...).copyWith.fieldName(value)`.
   ///
@@ -36,6 +38,7 @@ abstract class _$SpymetricsRequestCWProxy {
     SpymetricsDate? startDate,
     SpymetricsDate? endDate,
     String? country,
+    int? limit,
   });
 }
 
@@ -71,6 +74,9 @@ class _$SpymetricsRequestCWProxyImpl implements _$SpymetricsRequestCWProxy {
   SpymetricsRequest country(String? country) => call(country: country);
 
   @override
+  SpymetricsRequest limit(int? limit) => call(limit: limit);
+
+  @override
   /// Creates a new instance with the provided field values.
   /// Passing `null` to a nullable field nullifies it, while `null` for a non-nullable field is ignored. To update a single field use `SpymetricsRequest(...).copyWith.fieldName(value)`.
   ///
@@ -86,6 +92,7 @@ class _$SpymetricsRequestCWProxyImpl implements _$SpymetricsRequestCWProxy {
     Object? startDate = const $CopyWithPlaceholder(),
     Object? endDate = const $CopyWithPlaceholder(),
     Object? country = const $CopyWithPlaceholder(),
+    Object? limit = const $CopyWithPlaceholder(),
   }) {
     return SpymetricsRequest(
       granularity: granularity == const $CopyWithPlaceholder()
@@ -116,6 +123,10 @@ class _$SpymetricsRequestCWProxyImpl implements _$SpymetricsRequestCWProxy {
           ? _value.country
           // ignore: cast_nullable_to_non_nullable
           : country as String?,
+      limit: limit == const $CopyWithPlaceholder()
+          ? _value.limit
+          // ignore: cast_nullable_to_non_nullable
+          : limit as int?,
     );
   }
 }
@@ -147,6 +158,7 @@ SpymetricsRequest _$SpymetricsRequestFromJson(Map<String, dynamic> json) =>
         json['end_date'] as String?,
       ),
       country: json['country'] as String?,
+      limit: (json['limit'] as num?)?.toInt(),
     );
 
 Map<String, dynamic> _$SpymetricsRequestToJson(SpymetricsRequest instance) =>
@@ -160,4 +172,5 @@ Map<String, dynamic> _$SpymetricsRequestToJson(SpymetricsRequest instance) =>
       'start_date': ?const SpymetricsDateConverter().toJson(instance.startDate),
       'end_date': ?const SpymetricsDateConverter().toJson(instance.endDate),
       'country': ?instance.country,
+      'limit': ?instance.limit,
     };

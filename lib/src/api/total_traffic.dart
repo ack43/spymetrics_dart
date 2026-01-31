@@ -3,19 +3,15 @@ import 'package:dio/dio.dart';
 
 import '../client/request.dart';
 
-import '../models/visit.dart';
-import '../models/page_per_visit.dart';
-import '../models/average_visit_duration.dart';
-import '../models/bounce_rate.dart';
-import '../models/visits_split.dart';
+import '../../models.dart';
 
-part 'total_traffic_and_engagement.g.dart';
+part 'total_traffic.g.dart';
 
+//// *Total Traffic*
 //// https://api.spymetrics.ru/doc/endpoints#total-traffic-visits
 @RestApi()
-abstract class TotalTrafficAndEngagementApi {
-  factory TotalTrafficAndEngagementApi(Dio dio, {String baseUrl}) =
-      _TotalTrafficAndEngagementApi;
+abstract class TotalTrafficApi {
+  factory TotalTrafficApi(Dio dio, {String baseUrl}) = _TotalTrafficApi;
 
   // GET Visits
   @GET('/v1/website/{domain}/total-traffic-and-engagement/visits')

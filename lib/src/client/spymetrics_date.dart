@@ -3,7 +3,22 @@ import 'package:json_annotation/json_annotation.dart';
 class SpymetricsDate {
   SpymetricsDate(this.date);
   SpymetricsDate.fromJson(String? dateString) {
-    date = DateTime.parse(dateString!);
+    if (dateString == null) {
+      date = null;
+      return;
+    }
+
+    final parts = dateString.split('-');
+    if (parts.length == 1) {
+      date = DateTime.parse("$dateString-01-01"); // or 12?
+    } else if (parts.length == 2) {
+      date = DateTime.parse("$dateString-01"); // or 28-31?
+    } else {
+      final year = int.parse(parts[0]);
+      final month = int.parse(parts[1]);
+
+      date = DateTime(year, month, 1);
+    }
   }
   DateTime? date;
 
@@ -67,8 +82,13 @@ class SpymetricsDateConverter
   const SpymetricsDateConverter();
 
   @override
-  SpymetricsDate? fromJson(String? json) =>
-      json == null ? null : SpymetricsDate.fromJson(json);
+  SpymetricsDate? fromJson(String? json) {
+    try {
+      return json == null ? null : SpymetricsDate.fromJson(json);
+    } catch (e) {
+      return null;
+    }
+  }
 
   @override
   String? toJson(SpymetricsDate? object) => object?.toJson();
@@ -80,8 +100,17 @@ class SpymetricsDateExtConverter
   const SpymetricsDateExtConverter();
 
   @override
-  SpymetricsDateExt? fromJson(String? json) =>
-      json == null ? null : SpymetricsDateExt(DateTime.parse(json));
+  SpymetricsDateExt? fromJson(String? json) {
+    try {
+      return json == null
+          ? null
+          : (json.split("-").length == 3
+                ? SpymetricsDateExt(DateTime.parse(json))
+                : SpymetricsDateExt.from(SpymetricsDate.fromJson(json)));
+    } catch (e) {
+      return null;
+    }
+  }
 
   @override
   String? toJson(SpymetricsDateExt? object) => object?.toJson();

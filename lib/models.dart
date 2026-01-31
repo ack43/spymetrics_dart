@@ -1,0 +1,9 @@
+export 'src/models/visit.dart';
+export 'src/models/page_per_visit.dart';
+export 'src/models/average_visit_duration.dart';
+export 'src/models/bounce_rate.dart';
+export 'src/models/visits_split.dart';
+export 'src/models/geo_distribution.dart';
+export 'src/models/unique_visitors_entity.dart';
+export 'src/models/global_rank.dart';
+export 'src/models/country_rank.dart';
