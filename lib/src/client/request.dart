@@ -110,7 +110,11 @@ enum SpymetricsGranularity {
 
   @JsonValue('Monthly')
   // @JsonValue('monthly')
-  monthly,
+  monthly;
+
+  static SpymetricsGranularity? fromString(String value) {
+    return SpymetricsGranularityConverter().fromJson(value.toLowerCase());
+  }
 } // TODO: implement SpymetricsGranularity
 
 // cause of Monthly <-> monthly and etc

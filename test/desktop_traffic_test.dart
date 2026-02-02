@@ -220,5 +220,26 @@ void main() {
         uniqueVisitorsResponse.uniqueVisitors?.map((v) => v.uniqueVisitors),
       );
     });
+    //
+    //
+
+    test('/describe', () async {
+      await Future.delayed(const Duration(milliseconds: 400));
+      final describeResponse = await spymetricsClient.api.desktopTraffic
+          .describe(
+            "amazon.com",
+            // SpymetricsRequest.json(country: "RU"),
+            SpymetricsRequest.json(
+              startDate: SpymetricsDateExt(
+                DateTime.now().subtract(Duration(days: 100)),
+              ),
+              endDate: SpymetricsDate(
+                DateTime.now().subtract(Duration(days: 50)),
+              ),
+            ),
+          );
+
+      print(describeResponse);
+    });
   });
 }

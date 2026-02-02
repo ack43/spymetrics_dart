@@ -68,4 +68,13 @@ abstract class DesktopTrafficApi {
     @Path('domain') String domain,
     @Queries() SpymetricsRequest request,
   );
+
+  ///////////////////////////////////////////////////////
+  ///
+  // GET Desktop Visits [Describe]
+  @GET('/v1/website/{domain}/traffic-and-engagement/describe')
+  Future<Map<String, Object>> describe(
+    @Path('domain') String domain,
+    @Queries() SpymetricsRequest request,
+  );
 }

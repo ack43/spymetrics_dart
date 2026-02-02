@@ -98,11 +98,11 @@ Dio _createDio({
   dio.interceptors.add(
     InterceptorsWrapper(
       onError: (error, handler) {
-        print('⚠️ onError: $error');
+        // print('⚠️ onError: $error');
         final response = error.response;
-        // Check for API-level errors in JSON
-        print("onError.response.data");
-        print(response);
+        // // Check for API-level errors in JSON
+        // print("onError.response.data");
+        // print(response);
         if (response == null) {
           handler.reject(
             DioException(
@@ -117,7 +117,7 @@ Dio _createDio({
         // print(response.data['meta']);
         if (response.data is Map && response.data.containsKey('meta')) {
           final meta = response.data['meta'] as Map<String, dynamic>?;
-          print(response.data);
+          // print(response.data);
           if (meta != null &&
               meta.containsKey('status') &&
               meta['status'] != 'Success') {
@@ -138,15 +138,15 @@ Dio _createDio({
         handler.next(error);
       },
       onResponse: (response, handler) {
-        // Check for API-level errors in JSON
-        print("onResponse.response.data");
-        print(response.data);
-        // print("onResponse.response.data['meta']");
-        // print(response.data['meta']);
+        // // Check for API-level errors in JSON
+        // print("onResponse.response.data");
+        // print(response.data);
+        // // print("onResponse.response.data['meta']");
+        // // print(response.data['meta']);
 
         if (response.data is Map && response.data.containsKey('meta')) {
           final meta = response.data['meta'] as Map<String, dynamic>?;
-          print(response.data);
+          // print(response.data);
           if (meta != null &&
               meta.containsKey('status') &&
               meta['status'] != 'Success') {

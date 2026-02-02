@@ -59,8 +59,6 @@ class VisitsSplitEntityConverter
 
   @override
   VisitsSplitEntity? fromJson(Map<String, dynamic> json) {
-    print('json');
-    print(json);
     return VisitsSplitEntity(
       desktopVisitShare: (json['desktop_visit_share'] as num?)?.toDouble(),
       mobileWebVisitShare: (json['mobile_web_visit_share'] as num?)?.toDouble(),
