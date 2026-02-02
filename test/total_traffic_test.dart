@@ -12,7 +12,12 @@ void main() {
     late final SpymetricsClient spymetricsClient;
 
     setUpAll(() {
-      final dio = Dio(BaseOptions(baseUrl: 'https://api.spymetrics.ru'));
+      final dio = Dio(
+        BaseOptions(
+          baseUrl: 'https://api.spymetrics.ru',
+          queryParameters: {'api_key': apiKey},
+        ),
+      );
 
       spymetricsClient = SpymetricsClient.dio(dio, apiKey: apiKey);
       /////// OR:
@@ -37,11 +42,13 @@ void main() {
       );
     });
 
-    setUp(() {
-      Future.delayed(const Duration(milliseconds: 400));
+    setUp(() async {
+      print("pause");
+      await Future.delayed(const Duration(milliseconds: 400));
     });
 
     test('/visits', () async {
+      await Future.delayed(const Duration(milliseconds: 400));
       final visitsResponse = await spymetricsClient.api.totalTraffic.visits(
         "amazon.com",
         SpymetricsRequest.json(),
@@ -56,6 +63,7 @@ void main() {
     //
 
     test('/pages-per-visit', () async {
+      await Future.delayed(const Duration(milliseconds: 400));
       final pagesPerVisitResponse = await spymetricsClient.api.totalTraffic
           .pagesPerVisit("amazon.com", SpymetricsRequest.json());
 
@@ -71,6 +79,7 @@ void main() {
     //
 
     test('/average-visit-duration', () async {
+      await Future.delayed(const Duration(milliseconds: 400));
       final averageVisitDurationResponse = await spymetricsClient
           .api
           .totalTraffic
@@ -92,6 +101,7 @@ void main() {
     //
 
     test('/bounce-rate', () async {
+      await Future.delayed(const Duration(milliseconds: 400));
       final bounceRateResponse = await spymetricsClient.api.totalTraffic
           .bounceRate("amazon.com", SpymetricsRequest.json());
 
@@ -104,14 +114,30 @@ void main() {
     //
 
     test('/visits-split', () async {
+      await Future.delayed(const Duration(milliseconds: 400));
       final visitsSplitResponse = await spymetricsClient.api.totalTraffic
           .visitsSplit("amazon.com", SpymetricsRequest.json());
 
       expect(visitsSplitResponse, isA<VisitsSplitResponse>());
-      expect(visitsSplitResponse.desktopVisitShare, isNonNegative);
-      expect(visitsSplitResponse.mobileWebVisitShare, isNonNegative);
-      print(visitsSplitResponse.desktopVisitShare);
-      print(visitsSplitResponse.mobileWebVisitShare);
+      expect(visitsSplitResponse.visitsSplit, isNotNull);
+      expect(
+        visitsSplitResponse.visitsSplit!.mobileWebVisitShare,
+        isNonNegative,
+      );
+      expect(
+        visitsSplitResponse.visitsSplit!.mobileWebVisitShare,
+        isNonNegative,
+      );
+      print(visitsSplitResponse.visitsSplit!.desktopVisitShare);
+      print(visitsSplitResponse.visitsSplit!.mobileWebVisitShare);
+
+      final responseJson = visitsSplitResponse.toJson();
+      print(responseJson);
+      expect(responseJson, isA<Map<String, dynamic>>());
+      expect(responseJson['meta'], isNotNull);
+      expect(responseJson['desktop_visit_share'], isNotNull);
+      expect(responseJson['mobile_web_visit_share'], isNotNull);
+      expect(responseJson['visitsSplit'], isNull);
 
       // expect(visitsResponse.visitsSplit, isA<List<VisitsSplitEntity>>());
       // expect(visitsResponse.visitsSplit, isNotEmpty);

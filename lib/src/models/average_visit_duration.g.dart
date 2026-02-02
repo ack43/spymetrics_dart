@@ -23,7 +23,9 @@ Map<String, dynamic> _$AverageVisitDurationEntityToJson(
 AverageVisitDurationResponse _$AverageVisitDurationResponseFromJson(
   Map<String, dynamic> json,
 ) => AverageVisitDurationResponse(
-  meta: SpymetricsResponseMeta.fromJson(json['meta'] as Map<String, dynamic>),
+  meta: json['meta'] == null
+      ? null
+      : SpymetricsResponseMeta.fromJson(json['meta'] as Map<String, dynamic>),
   averageVisitDuration: (json['average_visit_duration'] as List<dynamic>?)
       ?.map(
         (e) => AverageVisitDurationEntity.fromJson(e as Map<String, dynamic>),

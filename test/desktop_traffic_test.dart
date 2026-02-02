@@ -12,7 +12,12 @@ void main() {
     late final SpymetricsClient spymetricsClient;
 
     setUpAll(() {
-      final dio = Dio(BaseOptions(baseUrl: 'https://api.spymetrics.ru'));
+      final dio = Dio(
+        BaseOptions(
+          baseUrl: 'https://api.spymetrics.ru',
+          queryParameters: {'api_key': apiKey},
+        ),
+      );
 
       spymetricsClient = SpymetricsClient.dio(dio, apiKey: apiKey);
       /////// OR:
@@ -37,11 +42,16 @@ void main() {
       );
     });
 
+    Future previous = Future.value();
     setUp(() {
-      Future.delayed(const Duration(milliseconds: 400));
+      previous = previous.then(
+        (_) => Future.delayed(const Duration(milliseconds: 400)),
+      );
+      return previous;
     });
 
     test('/visits', () async {
+      await Future.delayed(const Duration(milliseconds: 400));
       final visitsResponse = await spymetricsClient.api.desktopTraffic.visits(
         "amazon.com",
         SpymetricsRequest.json(limit: 10),
@@ -57,6 +67,7 @@ void main() {
     //
 
     test('/pages-per-visit', () async {
+      await Future.delayed(const Duration(milliseconds: 400));
       final pagesPerVisitResponse = await spymetricsClient.api.desktopTraffic
           .pagesPerVisit("amazon.com", SpymetricsRequest.json());
 
@@ -72,6 +83,7 @@ void main() {
     //
 
     test('/average-visit-duration', () async {
+      await Future.delayed(const Duration(milliseconds: 400));
       final averageVisitDurationResponse = await spymetricsClient
           .api
           .desktopTraffic
@@ -93,6 +105,7 @@ void main() {
     //
 
     test('/bounce-rate', () async {
+      await Future.delayed(const Duration(milliseconds: 400));
       final bounceRateResponse = await spymetricsClient.api.desktopTraffic
           .bounceRate("amazon.com", SpymetricsRequest.json());
 
@@ -105,6 +118,7 @@ void main() {
     //
 
     test('/global-rank/global-rank', () async {
+      await Future.delayed(const Duration(milliseconds: 400));
       final globalRankResponse = await spymetricsClient.api.desktopTraffic
           .globalRank(
             "amazon.com",
@@ -126,6 +140,7 @@ void main() {
     //
 
     test('/country-rank/country-rank', () async {
+      await Future.delayed(const Duration(milliseconds: 400));
       final countryRankResponse = await spymetricsClient.api.desktopTraffic
           .countryRank(
             "amazon.com",
@@ -149,6 +164,7 @@ void main() {
     //
 
     test('/geo/traffic-by-country', () async {
+      await Future.delayed(const Duration(milliseconds: 400));
       final geoDistributionResponse = await spymetricsClient.api.desktopTraffic
           .geoDistribution(
             "amazon.com",
@@ -176,6 +192,7 @@ void main() {
     //
 
     test('/unique-visitors/desktop_mau', () async {
+      await Future.delayed(const Duration(milliseconds: 400));
       final uniqueVisitorsResponse = await spymetricsClient.api.desktopTraffic
           .uniqueVisitors(
             "amazon.com",

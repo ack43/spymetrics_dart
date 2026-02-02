@@ -25,7 +25,9 @@ Map<String, dynamic> _$UniqueVisitorsEntityToJson(
 UniqueVisitorsResponse _$UniqueVisitorsResponseFromJson(
   Map<String, dynamic> json,
 ) => UniqueVisitorsResponse(
-  meta: SpymetricsResponseMeta.fromJson(json['meta'] as Map<String, dynamic>),
+  meta: json['meta'] == null
+      ? null
+      : SpymetricsResponseMeta.fromJson(json['meta'] as Map<String, dynamic>),
   uniqueVisitors: (json['unique_visitors'] as List<dynamic>?)
       ?.map((e) => UniqueVisitorsEntity.fromJson(e as Map<String, dynamic>))
       .toList(),

@@ -1,13 +1,12 @@
 import 'package:json_annotation/json_annotation.dart';
 
 import '../client/response.dart';
-import '../client/spymetrics_date.dart';
 
 part 'geo_distribution.g.dart';
 
 @JsonSerializable(fieldRename: FieldRename.snake)
 class GeoDistributionEntity {
-  GeoDistributionEntity({
+  const GeoDistributionEntity({
     this.rank,
     this.country,
     this.countryName,
@@ -41,8 +40,11 @@ class GeoDistributionEntity {
 @JsonSerializable(fieldRename: FieldRename.snake)
 class GeoDistributionResponse extends SpymetricsResponse {
   final List<GeoDistributionEntity>? records;
-  GeoDistributionResponse({required super.meta, this.records});
+
+  const GeoDistributionResponse({super.meta, this.records});
 
   factory GeoDistributionResponse.fromJson(Map<String, dynamic> json) =>
       _$GeoDistributionResponseFromJson(json);
+
+  Map<String, dynamic> toJson() => _$GeoDistributionResponseToJson(this);
 }

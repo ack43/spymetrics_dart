@@ -10,7 +10,12 @@ void main() {
     late final SpymetricsClient spymetricsClient;
 
     setUpAll(() {
-      final dio = Dio(BaseOptions(baseUrl: 'https://api.spymetrics.ru'));
+      final dio = Dio(
+        BaseOptions(
+          baseUrl: 'https://api.spymetrics.ru',
+          queryParameters: {'api_key': apiKey},
+        ),
+      );
       // Add a simple interceptor to print the full URL before request
       dio.interceptors.add(
         InterceptorsWrapper(
@@ -33,11 +38,13 @@ void main() {
       // spymetricsClient = SpymetricsClient(apiKey);
     });
 
-    setUp(() {
-      Future.delayed(const Duration(milliseconds: 400));
+    setUp(() async {
+      print("pause");
+      await Future.delayed(const Duration(milliseconds: 400));
     });
 
     test('First Test (/visits)', () async {
+      await Future.delayed(const Duration(milliseconds: 400));
       final visitsResponse = await spymetricsClient.api.totalTraffic.visits(
         "amazon.com",
         SpymetricsRequest.json(),
@@ -46,6 +53,7 @@ void main() {
     });
 
     test('First Test (/visits) with day(SpymetricsDateExt)', () async {
+      await Future.delayed(const Duration(milliseconds: 400));
       final visitsResponse = await spymetricsClient.api.totalTraffic.visits(
         "amazon.com",
         SpymetricsRequest.json(
@@ -58,6 +66,7 @@ void main() {
     });
 
     test('First Test (/visits) weekly', () async {
+      await Future.delayed(const Duration(milliseconds: 400));
       final visitsResponse = await spymetricsClient.api.totalTraffic.visits(
         "amazon.com",
         SpymetricsRequest.weekly(
@@ -70,6 +79,7 @@ void main() {
     });
 
     test('First Test (/visits) monthly', () async {
+      await Future.delayed(const Duration(milliseconds: 400));
       final visitsResponse = await spymetricsClient.api.totalTraffic.visits(
         "amazon.com",
         SpymetricsRequest.monthly(
@@ -82,6 +92,7 @@ void main() {
     });
 
     test('First failed Test /visits', () async {
+      await Future.delayed(const Duration(milliseconds: 400));
       try {
         final visitsResponse = await spymetricsClient.api.totalTraffic.visits(
           "amazon.com",
@@ -102,6 +113,7 @@ void main() {
     });
 
     test('First failed Test 2 /visits', () async {
+      await Future.delayed(const Duration(milliseconds: 400));
       try {
         final visitsResponse = await spymetricsClient.api.totalTraffic.visits(
           "amazon.com",
@@ -112,6 +124,7 @@ void main() {
 
         print(visitsResponse.visits?.map((v) => v.visits));
       } on SpymetricsApiException catch (e) {
+        expect(e.status, "Error");
         print('Caught API exception!');
         print('Status code: ${e.status}');
         print('Message: ${e.message}');
@@ -120,6 +133,7 @@ void main() {
         print('Caught Dio exception: ${e.message}');
         if (e.error is SpymetricsApiException) {
           final apiError = e.error as SpymetricsApiException;
+          expect(apiError.status, "Error");
           print('API exception inside Dio: ${apiError.message}');
         }
       } catch (e, stack) {

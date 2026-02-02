@@ -12,7 +12,12 @@ void main() {
     late final SpymetricsClient spymetricsClient;
 
     setUpAll(() {
-      final dio = Dio(BaseOptions(baseUrl: 'https://api.spymetrics.ru'));
+      final dio = Dio(
+        BaseOptions(
+          baseUrl: 'https://api.spymetrics.ru',
+          queryParameters: {'api_key': apiKey},
+        ),
+      );
 
       spymetricsClient = SpymetricsClient.dio(dio, apiKey: apiKey);
       /////// OR:
@@ -37,11 +42,13 @@ void main() {
       );
     });
 
-    setUp(() {
-      Future.delayed(const Duration(milliseconds: 400));
+    setUp(() async {
+      print("pause");
+      await Future.delayed(const Duration(milliseconds: 400));
     });
 
     test('/visits', () async {
+      await Future.delayed(const Duration(milliseconds: 400));
       final visitsResponse = await spymetricsClient.api.mobileTraffic.visits(
         "amazon.com",
         SpymetricsRequest.json(),
@@ -56,6 +63,7 @@ void main() {
     //
 
     test('/pages-per-visit', () async {
+      await Future.delayed(const Duration(milliseconds: 400));
       final pagesPerVisitResponse = await spymetricsClient.api.mobileTraffic
           .pagesPerVisit("amazon.com", SpymetricsRequest.json());
 
@@ -71,6 +79,7 @@ void main() {
     //
 
     test('/average-visit-duration', () async {
+      await Future.delayed(const Duration(milliseconds: 400));
       final averageVisitDurationResponse = await spymetricsClient
           .api
           .mobileTraffic
@@ -92,6 +101,7 @@ void main() {
     //
 
     test('/bounce-rate', () async {
+      await Future.delayed(const Duration(milliseconds: 400));
       final bounceRateResponse = await spymetricsClient.api.mobileTraffic
           .bounceRate("amazon.com", SpymetricsRequest.json());
 
@@ -104,6 +114,7 @@ void main() {
     //
 
     test('/unique-visitors/mobileweb_mau', () async {
+      await Future.delayed(const Duration(milliseconds: 400));
       final uniqueVisitorsResponse = await spymetricsClient.api.mobileTraffic
           .uniqueVisitors(
             "amazon.com",

@@ -3,6 +3,7 @@ import 'package:dio/dio.dart';
 import 'package:dio/io.dart';
 
 // APIS:
+import 'api/utilites.dart';
 import 'api/total_traffic.dart';
 import 'api/desktop_traffic.dart';
 import 'api/mobile_traffic.dart';
@@ -38,8 +39,10 @@ class SpymetricsClient {
 /// API Wrapper
 
 class SpymetricsApi {
-  SpymetricsApi(this._dio);
+  const SpymetricsApi(this._dio);
   final Dio _dio;
+
+  UtilitesApi get utilites => UtilitesApi(_dio, baseUrl: _dio.options.baseUrl);
 
   TotalTrafficApi get totalTraffic =>
       TotalTrafficApi(_dio, baseUrl: _dio.options.baseUrl);
@@ -69,6 +72,8 @@ Dio _createDio({
           baseUrl: baseUrl,
           connectTimeout: const Duration(seconds: 10),
           receiveTimeout: const Duration(seconds: 10),
+          queryParameters: {'api_key': apiKey},
+          // headers, queryParameters:
         ),
       );
 
@@ -78,23 +83,26 @@ Dio _createDio({
     return client;
   };
 
-  dio.interceptors.add(
-    InterceptorsWrapper(
-      onRequest: (options, handler) {
-        // print('➡️ onRequest: ${options.path} - adding api_key $apiKey');
-        options.queryParameters['api_key'] = apiKey;
-        // print('➡️ uri => ${options.uri}');
-        handler.next(options);
-      },
-    ),
-  );
+  // dio.interceptors.add(
+  //   InterceptorsWrapper(
+  //     onRequest: (options, handler) {
+  //       // print('➡️ onRequest: ${options.path} - adding api_key $apiKey');
+  //       options.queryParameters['api_key'] = apiKey;
+  //       // print('➡️ uri => ${options.uri}');
+  //       handler.next(options);
+  //     },
+  //   ),
+  // );
 
   // TODO: correct exceptions
   dio.interceptors.add(
     InterceptorsWrapper(
       onError: (error, handler) {
-        // print('⚠️ onError: $error');
+        print('⚠️ onError: $error');
         final response = error.response;
+        // Check for API-level errors in JSON
+        print("onError.response.data");
+        print(response);
         if (response == null) {
           handler.reject(
             DioException(
@@ -102,47 +110,59 @@ Dio _createDio({
               error: error.error,
             ),
           );
-          // handler.next(error);
+          handler.next(error);
           return;
         }
-        // Check for API-level errors in JSON
-        // print("response.data['meta']");
+        // print("onError.response.data['meta']");
         // print(response.data['meta']);
-        if (response.data['meta']?['status'] != 'Success') {
-          handler.reject(
-            DioException(
-              requestOptions: response.requestOptions,
-              error: SpymetricsApiException(
-                httpCode: response.statusCode,
-                status: response.data['meta']['status'],
-                code: response.data['meta']['error_code'],
-                message:
-                    response.data['meta']['error_message'] ?? 'Unknown error',
+        if (response.data is Map && response.data.containsKey('meta')) {
+          final meta = response.data['meta'] as Map<String, dynamic>?;
+          print(response.data);
+          if (meta != null &&
+              meta.containsKey('status') &&
+              meta['status'] != 'Success') {
+            handler.reject(
+              DioException(
+                requestOptions: response.requestOptions,
+                error: SpymetricsApiException(
+                  httpCode: response.statusCode,
+                  status: meta['status'],
+                  code: meta['error_code'],
+                  message: meta['error_message'] ?? 'Unknown error',
+                ),
               ),
-            ),
-          );
-          return;
+            );
+            return;
+          }
         }
         handler.next(error);
       },
       onResponse: (response, handler) {
         // Check for API-level errors in JSON
-        // print("response.data['meta']");
+        print("onResponse.response.data");
+        print(response.data);
+        // print("onResponse.response.data['meta']");
         // print(response.data['meta']);
-        if (response.data['meta']?['status'] != 'Success') {
-          handler.reject(
-            DioException(
-              requestOptions: response.requestOptions,
-              error: SpymetricsApiException(
-                httpCode: response.statusCode,
-                status: response.data['meta']['status'],
-                code: response.data['meta']['error_code'],
-                message:
-                    response.data['meta']['error_message'] ?? 'Unknown error',
+
+        if (response.data is Map && response.data.containsKey('meta')) {
+          final meta = response.data['meta'] as Map<String, dynamic>?;
+          print(response.data);
+          if (meta != null &&
+              meta.containsKey('status') &&
+              meta['status'] != 'Success') {
+            handler.reject(
+              DioException(
+                requestOptions: response.requestOptions,
+                error: SpymetricsApiException(
+                  httpCode: response.statusCode,
+                  status: meta['status'],
+                  code: meta['error_code'],
+                  message: meta['error_message'] ?? 'Unknown error',
+                ),
               ),
-            ),
-          );
-          return;
+            );
+            return;
+          }
         }
         handler.next(response);
       },
@@ -159,7 +179,12 @@ class SpymetricsApiException implements Exception {
   final int? code;
   final String? message;
 
-  SpymetricsApiException({this.httpCode, this.status, this.code, this.message});
+  const SpymetricsApiException({
+    this.httpCode,
+    this.status,
+    this.code,
+    this.message,
+  });
 
   @override
   String toString() =>

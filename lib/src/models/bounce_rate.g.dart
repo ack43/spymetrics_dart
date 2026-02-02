@@ -22,9 +22,11 @@ Map<String, dynamic> _$BounceRateEntityToJson(BounceRateEntity instance) =>
 
 BounceRateResponse _$BounceRateResponseFromJson(Map<String, dynamic> json) =>
     BounceRateResponse(
-      meta: SpymetricsResponseMeta.fromJson(
-        json['meta'] as Map<String, dynamic>,
-      ),
+      meta: json['meta'] == null
+          ? null
+          : SpymetricsResponseMeta.fromJson(
+              json['meta'] as Map<String, dynamic>,
+            ),
       bounceRate: (json['bounce_rate'] as List<dynamic>?)
           ?.map((e) => BounceRateEntity.fromJson(e as Map<String, dynamic>))
           .toList(),

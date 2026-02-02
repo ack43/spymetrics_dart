@@ -84,7 +84,11 @@ class SpymetricsDateConverter
   @override
   SpymetricsDate? fromJson(String? json) {
     try {
-      return json == null ? null : SpymetricsDate.fromJson(json);
+      return json == null
+          ? null
+          : (json.split("-").length == 3
+                ? SpymetricsDateExt(DateTime.parse(json))
+                : SpymetricsDate.fromJson(json));
     } catch (e) {
       return null;
     }

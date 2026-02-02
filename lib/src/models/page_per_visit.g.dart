@@ -24,7 +24,9 @@ Map<String, dynamic> _$PagesPerVisitEntityToJson(
 PagesPerVisitResponse _$PagesPerVisitResponseFromJson(
   Map<String, dynamic> json,
 ) => PagesPerVisitResponse(
-  meta: SpymetricsResponseMeta.fromJson(json['meta'] as Map<String, dynamic>),
+  meta: json['meta'] == null
+      ? null
+      : SpymetricsResponseMeta.fromJson(json['meta'] as Map<String, dynamic>),
   pagesPerVisit: (json['pages_per_visit'] as List<dynamic>?)
       ?.map((e) => PagesPerVisitEntity.fromJson(e as Map<String, dynamic>))
       .toList(),

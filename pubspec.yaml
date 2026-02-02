@@ -1,7 +1,7 @@
 name: spymetrics_dart
 description: Unofficial Spymetrics API client for Dart
-version: 1.0.0
-repository: https://github.com/ack43/
+version: 0.1.0
+repository: https://github.com/ack43/spymetrics_dart
 
 environment:
   sdk: ^3.10.7

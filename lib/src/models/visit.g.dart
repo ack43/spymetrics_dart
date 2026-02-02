@@ -19,9 +19,11 @@ Map<String, dynamic> _$VisitEntityToJson(VisitEntity instance) =>
 
 VisitsResponse _$VisitsResponseFromJson(Map<String, dynamic> json) =>
     VisitsResponse(
-      meta: SpymetricsResponseMeta.fromJson(
-        json['meta'] as Map<String, dynamic>,
-      ),
+      meta: json['meta'] == null
+          ? null
+          : SpymetricsResponseMeta.fromJson(
+              json['meta'] as Map<String, dynamic>,
+            ),
       visits: (json['visits'] as List<dynamic>?)
           ?.map((e) => VisitEntity.fromJson(e as Map<String, dynamic>))
           .toList(),

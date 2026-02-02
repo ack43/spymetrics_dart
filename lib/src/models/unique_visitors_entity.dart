@@ -7,7 +7,7 @@ part 'unique_visitors_entity.g.dart';
 
 @JsonSerializable(fieldRename: FieldRename.snake)
 class UniqueVisitorsEntity {
-  UniqueVisitorsEntity({this.date, this.uniqueVisitors});
+  const UniqueVisitorsEntity({this.date, this.uniqueVisitors});
   //
   final SpymetricsDate? date;
   final double? uniqueVisitors;
@@ -25,8 +25,10 @@ class UniqueVisitorsEntity {
 @JsonSerializable(fieldRename: FieldRename.snake)
 class UniqueVisitorsResponse extends SpymetricsResponse {
   final List<UniqueVisitorsEntity>? uniqueVisitors;
-  UniqueVisitorsResponse({required super.meta, this.uniqueVisitors});
+  const UniqueVisitorsResponse({super.meta, this.uniqueVisitors});
 
   factory UniqueVisitorsResponse.fromJson(Map<String, dynamic> json) =>
       _$UniqueVisitorsResponseFromJson(json);
+
+  Map<String, dynamic> toJson() => _$UniqueVisitorsResponseToJson(this);
 }

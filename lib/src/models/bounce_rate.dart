@@ -7,7 +7,7 @@ part 'bounce_rate.g.dart';
 
 @JsonSerializable(fieldRename: FieldRename.snake)
 class BounceRateEntity {
-  BounceRateEntity({required this.date, required this.bounceRate});
+  const BounceRateEntity({this.date, this.bounceRate});
   @SpymetricsDateExtConverter()
   final SpymetricsDateExt? date;
   final double? bounceRate;
@@ -26,8 +26,10 @@ class BounceRateEntity {
 class BounceRateResponse extends SpymetricsResponse {
   final List<BounceRateEntity>? bounceRate;
 
-  BounceRateResponse({required super.meta, this.bounceRate});
+  const BounceRateResponse({super.meta, this.bounceRate});
 
   factory BounceRateResponse.fromJson(Map<String, dynamic> json) =>
       _$BounceRateResponseFromJson(json);
+
+  Map<String, dynamic> toJson() => _$BounceRateResponseToJson(this);
 }

@@ -10,9 +10,9 @@ part 'response.g.dart';
 //   genericArgumentFactories: true,
 // )
 abstract class SpymetricsResponse {
-  final SpymetricsResponseMeta meta;
+  final SpymetricsResponseMeta? meta;
 
-  SpymetricsResponse({required this.meta});
+  const SpymetricsResponse({required this.meta});
 }
 
 @JsonSerializable(fieldRename: FieldRename.snake)

@@ -1,3 +1,6 @@
+export 'src/models/capabilities.dart';
+export 'src/models/categories.dart';
+//
 export 'src/models/visit.dart';
 export 'src/models/page_per_visit.dart';
 export 'src/models/average_visit_duration.dart';

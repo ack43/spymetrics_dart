@@ -7,10 +7,7 @@ part 'average_visit_duration.g.dart';
 
 @JsonSerializable(fieldRename: FieldRename.snake)
 class AverageVisitDurationEntity {
-  AverageVisitDurationEntity({
-    required this.date,
-    required this.averageVisitDuration,
-  });
+  const AverageVisitDurationEntity({this.date, this.averageVisitDuration});
   @SpymetricsDateExtConverter()
   final SpymetricsDateExt? date;
   final double? averageVisitDuration;
@@ -29,11 +26,10 @@ class AverageVisitDurationEntity {
 class AverageVisitDurationResponse extends SpymetricsResponse {
   final List<AverageVisitDurationEntity>? averageVisitDuration;
 
-  AverageVisitDurationResponse({
-    required super.meta,
-    this.averageVisitDuration,
-  });
+  const AverageVisitDurationResponse({super.meta, this.averageVisitDuration});
 
   factory AverageVisitDurationResponse.fromJson(Map<String, dynamic> json) =>
       _$AverageVisitDurationResponseFromJson(json);
+
+  Map<String, dynamic> toJson() => _$AverageVisitDurationResponseToJson(this);
 }

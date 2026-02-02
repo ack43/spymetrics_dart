@@ -35,7 +35,9 @@ Map<String, dynamic> _$GeoDistributionEntityToJson(
 GeoDistributionResponse _$GeoDistributionResponseFromJson(
   Map<String, dynamic> json,
 ) => GeoDistributionResponse(
-  meta: SpymetricsResponseMeta.fromJson(json['meta'] as Map<String, dynamic>),
+  meta: json['meta'] == null
+      ? null
+      : SpymetricsResponseMeta.fromJson(json['meta'] as Map<String, dynamic>),
   records: (json['records'] as List<dynamic>?)
       ?.map((e) => GeoDistributionEntity.fromJson(e as Map<String, dynamic>))
       .toList(),

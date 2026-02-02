@@ -22,9 +22,11 @@ Map<String, dynamic> _$CountryRankEntityToJson(CountryRankEntity instance) =>
 
 CountryRankResponse _$CountryRankResponseFromJson(Map<String, dynamic> json) =>
     CountryRankResponse(
-      meta: SpymetricsResponseMeta.fromJson(
-        json['meta'] as Map<String, dynamic>,
-      ),
+      meta: json['meta'] == null
+          ? null
+          : SpymetricsResponseMeta.fromJson(
+              json['meta'] as Map<String, dynamic>,
+            ),
       countryRank: (json['country_rank'] as List<dynamic>?)
           ?.map((e) => CountryRankEntity.fromJson(e as Map<String, dynamic>))
           .toList(),

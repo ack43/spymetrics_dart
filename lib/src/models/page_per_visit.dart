@@ -7,7 +7,7 @@ part 'page_per_visit.g.dart';
 
 @JsonSerializable(fieldRename: FieldRename.snake)
 class PagesPerVisitEntity {
-  PagesPerVisitEntity({required this.date, required this.pagesPerVisit});
+  const PagesPerVisitEntity({this.date, this.pagesPerVisit});
   @SpymetricsDateExtConverter()
   final SpymetricsDateExt? date;
   final double? pagesPerVisit;
@@ -26,8 +26,10 @@ class PagesPerVisitEntity {
 class PagesPerVisitResponse extends SpymetricsResponse {
   final List<PagesPerVisitEntity>? pagesPerVisit;
 
-  PagesPerVisitResponse({required super.meta, this.pagesPerVisit});
+  const PagesPerVisitResponse({super.meta, this.pagesPerVisit});
 
   factory PagesPerVisitResponse.fromJson(Map<String, dynamic> json) =>
       _$PagesPerVisitResponseFromJson(json);
+
+  Map<String, dynamic> toJson() => _$PagesPerVisitResponseToJson(this);
 }
