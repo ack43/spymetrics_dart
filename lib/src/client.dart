@@ -1,6 +1,7 @@
 import 'dart:io';
 import 'package:dio/dio.dart';
 import 'package:dio/io.dart';
+import 'package:spymetrics_dart/src/client/request.dart';
 
 // APIS:
 import 'api/utilites.dart';
@@ -52,6 +53,25 @@ class SpymetricsApi {
 
   MobileTrafficApi get mobileTraffic =>
       MobileTrafficApi(_dio, baseUrl: _dio.options.baseUrl);
+
+  // Raw request
+  static String constructPath({String? domain, String? action}) {
+    String path = '';
+    if (domain != null) {
+      path += "/v1/website/${domain.trim()}";
+    }
+    path += '/$action';
+    return path;
+  }
+
+  Future rawRequest(
+    String path, {
+    Map<String, dynamic>? queryParameters,
+    SpymetricsRequest? request,
+  }) {
+    queryParameters ??= request?.toJson() ?? {};
+    return _dio.get(path, queryParameters: queryParameters);
+  }
 }
 
 ///

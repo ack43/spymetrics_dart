@@ -16,44 +16,44 @@ abstract class MobileTrafficApi {
   // GET Visits
   @GET('/v1/website/{domain}/mobile-web//visits')
   Future<VisitsResponse> visits(
-    @Path('domain') String domain,
-    @Queries() SpymetricsRequest request,
-  );
+    @Path('domain') String domain, {
+    @Queries() SpymetricsRequest? request,
+  });
 
   // GET Pages / Visit
   @GET('/v1/website/{domain}/mobile-web/pages-per-visit')
   Future<PagesPerVisitResponse> pagesPerVisit(
-    @Path('domain') String domain,
-    @Queries() SpymetricsRequest request,
-  );
+    @Path('domain') String domain, {
+    @Queries() SpymetricsRequest? request,
+  });
 
   // GET Total Avg. Visit Duration
   @GET('/v1/website/{domain}/mobile-web/average-visit-duration')
   Future<AverageVisitDurationResponse> averageVisitDuration(
-    @Path('domain') String domain,
-    @Queries() SpymetricsRequest request,
-  );
+    @Path('domain') String domain, {
+    @Queries() SpymetricsRequest? request,
+  });
 
   // GET Bounce Rate
   @GET('/v1/website/{domain}/mobile-web/bounce-rate')
   Future<BounceRateResponse> bounceRate(
-    @Path('domain') String domain,
-    @Queries() SpymetricsRequest request,
-  );
+    @Path('domain') String domain, {
+    @Queries() SpymetricsRequest? request,
+  });
 
   // GET Mobile Web Unique Visitors
   @GET('/v1/website/{domain}/unique-visitors/mobileweb_mau')
   Future<UniqueVisitorsResponse> uniqueVisitors(
-    @Path('domain') String domain,
-    @Queries() SpymetricsRequest request,
-  );
+    @Path('domain') String domain, {
+    @Queries() SpymetricsRequest? request,
+  });
 
   ///////////////////////////////////////////////////////
   ///
   // GET Desktop Visits [Describe]
-  @GET('/v1/website/{domain}/total-traffic-and-engagement/describe')
-  Future<Map<String, Object>> describe(
-    @Path('domain') String domain,
-    @Queries() SpymetricsRequest request,
-  );
+  @GET('/v1/website/{domain}/mobile-web/describe')
+  Future<DescribeDataResponse> describe(
+    @Path('domain') String domain, {
+    @Queries() SpymetricsRequest? request,
+  });
 }

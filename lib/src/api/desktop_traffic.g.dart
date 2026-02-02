@@ -21,12 +21,13 @@ class _DesktopTrafficApi implements DesktopTrafficApi {
 
   @override
   Future<VisitsResponse> visits(
-    String domain,
-    SpymetricsRequest request,
-  ) async {
+    String domain, {
+    SpymetricsRequest? request,
+  }) async {
     final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
-    queryParameters.addAll(request.toJson());
+    queryParameters.addAll(request?.toJson() ?? <String, dynamic>{});
+    queryParameters.removeWhere((k, v) => v == null);
     final _headers = <String, dynamic>{};
     const Map<String, dynamic>? _data = null;
     final _options = _setStreamType<VisitsResponse>(
@@ -52,12 +53,13 @@ class _DesktopTrafficApi implements DesktopTrafficApi {
 
   @override
   Future<PagesPerVisitResponse> pagesPerVisit(
-    String domain,
-    SpymetricsRequest request,
-  ) async {
+    String domain, {
+    SpymetricsRequest? request,
+  }) async {
     final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
-    queryParameters.addAll(request.toJson());
+    queryParameters.addAll(request?.toJson() ?? <String, dynamic>{});
+    queryParameters.removeWhere((k, v) => v == null);
     final _headers = <String, dynamic>{};
     const Map<String, dynamic>? _data = null;
     final _options = _setStreamType<PagesPerVisitResponse>(
@@ -83,12 +85,13 @@ class _DesktopTrafficApi implements DesktopTrafficApi {
 
   @override
   Future<AverageVisitDurationResponse> averageVisitDuration(
-    String domain,
-    SpymetricsRequest request,
-  ) async {
+    String domain, {
+    SpymetricsRequest? request,
+  }) async {
     final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
-    queryParameters.addAll(request.toJson());
+    queryParameters.addAll(request?.toJson() ?? <String, dynamic>{});
+    queryParameters.removeWhere((k, v) => v == null);
     final _headers = <String, dynamic>{};
     const Map<String, dynamic>? _data = null;
     final _options = _setStreamType<AverageVisitDurationResponse>(
@@ -114,12 +117,13 @@ class _DesktopTrafficApi implements DesktopTrafficApi {
 
   @override
   Future<BounceRateResponse> bounceRate(
-    String domain,
-    SpymetricsRequest request,
-  ) async {
+    String domain, {
+    SpymetricsRequest? request,
+  }) async {
     final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
-    queryParameters.addAll(request.toJson());
+    queryParameters.addAll(request?.toJson() ?? <String, dynamic>{});
+    queryParameters.removeWhere((k, v) => v == null);
     final _headers = <String, dynamic>{};
     const Map<String, dynamic>? _data = null;
     final _options = _setStreamType<BounceRateResponse>(
@@ -145,12 +149,13 @@ class _DesktopTrafficApi implements DesktopTrafficApi {
 
   @override
   Future<GlobalRankResponse> globalRank(
-    String domain,
-    SpymetricsRequest request,
-  ) async {
+    String domain, {
+    SpymetricsRequest? request,
+  }) async {
     final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
-    queryParameters.addAll(request.toJson());
+    queryParameters.addAll(request?.toJson() ?? <String, dynamic>{});
+    queryParameters.removeWhere((k, v) => v == null);
     final _headers = <String, dynamic>{};
     const Map<String, dynamic>? _data = null;
     final _options = _setStreamType<GlobalRankResponse>(
@@ -176,12 +181,13 @@ class _DesktopTrafficApi implements DesktopTrafficApi {
 
   @override
   Future<CountryRankResponse> countryRank(
-    String domain,
-    SpymetricsRequest request,
-  ) async {
+    String domain, {
+    SpymetricsRequest? request,
+  }) async {
     final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
-    queryParameters.addAll(request.toJson());
+    queryParameters.addAll(request?.toJson() ?? <String, dynamic>{});
+    queryParameters.removeWhere((k, v) => v == null);
     final _headers = <String, dynamic>{};
     const Map<String, dynamic>? _data = null;
     final _options = _setStreamType<CountryRankResponse>(
@@ -207,12 +213,13 @@ class _DesktopTrafficApi implements DesktopTrafficApi {
 
   @override
   Future<GeoDistributionResponse> geoDistribution(
-    String domain,
-    SpymetricsRequest request,
-  ) async {
+    String domain, {
+    SpymetricsRequest? request,
+  }) async {
     final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
-    queryParameters.addAll(request.toJson());
+    queryParameters.addAll(request?.toJson() ?? <String, dynamic>{});
+    queryParameters.removeWhere((k, v) => v == null);
     final _headers = <String, dynamic>{};
     const Map<String, dynamic>? _data = null;
     final _options = _setStreamType<GeoDistributionResponse>(
@@ -238,12 +245,13 @@ class _DesktopTrafficApi implements DesktopTrafficApi {
 
   @override
   Future<UniqueVisitorsResponse> uniqueVisitors(
-    String domain,
-    SpymetricsRequest request,
-  ) async {
+    String domain, {
+    SpymetricsRequest? request,
+  }) async {
     final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
-    queryParameters.addAll(request.toJson());
+    queryParameters.addAll(request?.toJson() ?? <String, dynamic>{});
+    queryParameters.removeWhere((k, v) => v == null);
     final _headers = <String, dynamic>{};
     const Map<String, dynamic>? _data = null;
     final _options = _setStreamType<UniqueVisitorsResponse>(
@@ -268,16 +276,17 @@ class _DesktopTrafficApi implements DesktopTrafficApi {
   }
 
   @override
-  Future<Map<String, Object>> describe(
-    String domain,
-    SpymetricsRequest request,
-  ) async {
+  Future<DescribeDataResponse> describe(
+    String domain, {
+    SpymetricsRequest? request,
+  }) async {
     final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
-    queryParameters.addAll(request.toJson());
+    queryParameters.addAll(request?.toJson() ?? <String, dynamic>{});
+    queryParameters.removeWhere((k, v) => v == null);
     final _headers = <String, dynamic>{};
     const Map<String, dynamic>? _data = null;
-    final _options = _setStreamType<Map<String, Object>>(
+    final _options = _setStreamType<DescribeDataResponse>(
       Options(method: 'GET', headers: _headers, extra: _extra)
           .compose(
             _dio.options,
@@ -288,9 +297,9 @@ class _DesktopTrafficApi implements DesktopTrafficApi {
           .copyWith(baseUrl: _combineBaseUrls(_dio.options.baseUrl, baseUrl)),
     );
     final _result = await _dio.fetch<Map<String, dynamic>>(_options);
-    late Map<String, Object> _value;
+    late DescribeDataResponse _value;
     try {
-      _value = _result.data!.cast<String, Object>();
+      _value = DescribeDataResponse.fromJson(_result.data!);
     } on Object catch (e, s) {
       errorLogger?.logError(e, s, _options, response: _result);
       rethrow;

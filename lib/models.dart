@@ -10,3 +10,5 @@ export 'src/models/geo_distribution.dart';
 export 'src/models/unique_visitors_entity.dart';
 export 'src/models/global_rank.dart';
 export 'src/models/country_rank.dart';
+//
+export 'src/models/describe_data.dart';

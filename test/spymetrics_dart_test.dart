@@ -47,7 +47,6 @@ void main() {
       await Future.delayed(const Duration(milliseconds: 400));
       final visitsResponse = await spymetricsClient.api.totalTraffic.visits(
         "amazon.com",
-        SpymetricsRequest.json(),
       );
       print(visitsResponse.visits?.map((v) => v.visits));
     });
@@ -56,7 +55,7 @@ void main() {
       await Future.delayed(const Duration(milliseconds: 400));
       final visitsResponse = await spymetricsClient.api.totalTraffic.visits(
         "amazon.com",
-        SpymetricsRequest.json(
+        request: SpymetricsRequest.json(
           endDate: SpymetricsDateExt(
             DateTime.now().subtract(Duration(days: 50)),
           ),
@@ -69,7 +68,7 @@ void main() {
       await Future.delayed(const Duration(milliseconds: 400));
       final visitsResponse = await spymetricsClient.api.totalTraffic.visits(
         "amazon.com",
-        SpymetricsRequest.weekly(
+        request: SpymetricsRequest.weekly(
           endDate: SpymetricsDateExt(
             DateTime.now().subtract(Duration(days: 50)),
           ),
@@ -82,7 +81,7 @@ void main() {
       await Future.delayed(const Duration(milliseconds: 400));
       final visitsResponse = await spymetricsClient.api.totalTraffic.visits(
         "amazon.com",
-        SpymetricsRequest.monthly(
+        request: SpymetricsRequest.monthly(
           endDate: SpymetricsDateExt(
             DateTime.now().subtract(Duration(days: 50)),
           ),
@@ -96,7 +95,7 @@ void main() {
       try {
         final visitsResponse = await spymetricsClient.api.totalTraffic.visits(
           "amazon.com",
-          SpymetricsRequest.json(
+          request: SpymetricsRequest.json(
             endDate: SpymetricsDateExt(DateTime.now().add(Duration(days: 500))),
           ),
         );
@@ -117,7 +116,7 @@ void main() {
       try {
         final visitsResponse = await spymetricsClient.api.totalTraffic.visits(
           "amazon.com",
-          SpymetricsRequest.json(
+          request: SpymetricsRequest.json(
             endDate: SpymetricsDateExt(DateTime.now().add(Duration(days: 500))),
           ),
         );
@@ -135,11 +134,39 @@ void main() {
           final apiError = e.error as SpymetricsApiException;
           expect(apiError.status, "Error");
           print('API exception inside Dio: ${apiError.message}');
+          print(apiError.message?.contains("/describe"));
         }
       } catch (e, stack) {
         print('Other exception: $e');
         print(stack);
       }
+    });
+    //
+    //
+    //
+    //
+    test('rawRequest', () async {
+      await Future.delayed(const Duration(milliseconds: 400));
+      //
+      //
+      final response = await spymetricsClient.api.rawRequest(
+        SpymetricsApi.constructPath(
+          domain: "amazon.com",
+          action: "total-traffic-and-engagement/visits",
+        ),
+        request: SpymetricsRequest.xml(
+          granularity: SpymetricsGranularity.daily,
+          startDate: SpymetricsDateExt(
+            DateTime.now().subtract(Duration(days: 100)),
+          ),
+          endDate: SpymetricsDateExt(
+            DateTime.now().subtract(Duration(days: 80)),
+          ),
+        ),
+      );
+      print(response);
+      expect(response.data, isNotNull);
+      expect(response.data, startsWith("<?xml"));
     });
   });
 }

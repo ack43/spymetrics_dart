@@ -4,17 +4,14 @@ import 'package:dio/dio.dart';
 void main() async {
   final apiKey = 'demo';
   final spymetricsClient = SpymetricsClient(apiKey);
-  spymetricsClient.api.totalTraffic.visits(
-    "amazon.com",
-    SpymetricsRequest.json(),
-  );
+  spymetricsClient.api.totalTraffic.visits("amazon.com");
   //
   //
   //
   try {
     final visitsResponse = await spymetricsClient.api.totalTraffic.visits(
       "amazon.com",
-      SpymetricsRequest.json(
+      request: SpymetricsRequest.json(
         endDate: SpymetricsDateExt(DateTime.now().add(Duration(days: 500))),
       ),
     );
@@ -33,7 +30,7 @@ void main() async {
   try {
     final visitsResponse = await spymetricsClient.api.totalTraffic.visits(
       "amazon.com",
-      SpymetricsRequest.json(
+      request: SpymetricsRequest.json(
         endDate: SpymetricsDateExt(DateTime.now().add(Duration(days: 500))),
       ),
     );
@@ -54,4 +51,23 @@ void main() async {
     print('Other exception: $e');
     print(stack);
   }
+
+  //
+  //
+  //
+
+  final responseXml = await spymetricsClient.api.rawRequest(
+    SpymetricsApi.constructPath(
+      domain: "amazon.com",
+      action: "total-traffic-and-engagement/visits",
+    ),
+    request: SpymetricsRequest.xml(
+      granularity: SpymetricsGranularity.daily,
+      startDate: SpymetricsDateExt(
+        DateTime.now().subtract(Duration(days: 100)),
+      ),
+      endDate: SpymetricsDateExt(DateTime.now().subtract(Duration(days: 80))),
+    ),
+  );
+  print(responseXml.data); // <?xml ...
 }

@@ -54,13 +54,13 @@ void main() {
       await Future.delayed(const Duration(milliseconds: 400));
       final visitsResponse = await spymetricsClient.api.desktopTraffic.visits(
         "amazon.com",
-        SpymetricsRequest.json(limit: 10),
       );
 
       expect(visitsResponse, isA<VisitsResponse>());
       expect(visitsResponse.visits, isA<List<VisitEntity>>());
       expect(visitsResponse.visits, isNotEmpty);
       // expect(visitsResponse.visits?.length, 10); // still ot work
+      print(visitsResponse.visits?.map((v) => v.date));
       print(visitsResponse.visits?.map((v) => v.visits));
     });
     //
@@ -69,7 +69,7 @@ void main() {
     test('/pages-per-visit', () async {
       await Future.delayed(const Duration(milliseconds: 400));
       final pagesPerVisitResponse = await spymetricsClient.api.desktopTraffic
-          .pagesPerVisit("amazon.com", SpymetricsRequest.json());
+          .pagesPerVisit("amazon.com");
 
       expect(pagesPerVisitResponse, isA<PagesPerVisitResponse>());
       expect(
@@ -87,7 +87,7 @@ void main() {
       final averageVisitDurationResponse = await spymetricsClient
           .api
           .desktopTraffic
-          .averageVisitDuration("amazon.com", SpymetricsRequest.json());
+          .averageVisitDuration("amazon.com");
 
       expect(averageVisitDurationResponse, isA<AverageVisitDurationResponse>());
       expect(
@@ -107,7 +107,7 @@ void main() {
     test('/bounce-rate', () async {
       await Future.delayed(const Duration(milliseconds: 400));
       final bounceRateResponse = await spymetricsClient.api.desktopTraffic
-          .bounceRate("amazon.com", SpymetricsRequest.json());
+          .bounceRate("amazon.com");
 
       expect(bounceRateResponse, isA<BounceRateResponse>());
       expect(bounceRateResponse.bounceRate, isA<List<BounceRateEntity>>());
@@ -122,7 +122,7 @@ void main() {
       final globalRankResponse = await spymetricsClient.api.desktopTraffic
           .globalRank(
             "amazon.com",
-            SpymetricsRequest.json(
+            request: SpymetricsRequest.json(
               limit: 2,
               endDate: SpymetricsDateExt(
                 DateTime.now().subtract(Duration(days: 60)),
@@ -144,7 +144,7 @@ void main() {
       final countryRankResponse = await spymetricsClient.api.desktopTraffic
           .countryRank(
             "amazon.com",
-            SpymetricsRequest.json(
+            request: SpymetricsRequest.json(
               granularity: SpymetricsGranularity.daily,
               startDate: SpymetricsDateExt(
                 DateTime.now().subtract(Duration(days: 100)),
@@ -168,7 +168,7 @@ void main() {
       final geoDistributionResponse = await spymetricsClient.api.desktopTraffic
           .geoDistribution(
             "amazon.com",
-            SpymetricsRequest.json(
+            request: SpymetricsRequest.json(
               startDate: SpymetricsDateExt(
                 DateTime.now().subtract(Duration(days: 100)),
               ),
@@ -196,7 +196,7 @@ void main() {
       final uniqueVisitorsResponse = await spymetricsClient.api.desktopTraffic
           .uniqueVisitors(
             "amazon.com",
-            SpymetricsRequest.json(
+            request: SpymetricsRequest.json(
               startDate: SpymetricsDateExt(
                 DateTime.now().subtract(Duration(days: 100)),
               ),
@@ -225,21 +225,38 @@ void main() {
 
     test('/describe', () async {
       await Future.delayed(const Duration(milliseconds: 400));
-      final describeResponse = await spymetricsClient.api.desktopTraffic
+      final describeDataResponse = await spymetricsClient.api.desktopTraffic
           .describe(
             "amazon.com",
-            // SpymetricsRequest.json(country: "RU"),
-            SpymetricsRequest.json(
+            // request: SpymetricsRequest.json(country: "RU"),
+            request: SpymetricsRequest.json(
               startDate: SpymetricsDateExt(
-                DateTime.now().subtract(Duration(days: 100)),
+                DateTime.now().subtract(Duration(days: 1000)),
               ),
               endDate: SpymetricsDate(
-                DateTime.now().subtract(Duration(days: 50)),
+                DateTime.now().subtract(Duration(days: 500)),
               ),
             ),
           );
 
-      print(describeResponse);
+      final responseMap = describeDataResponse.response;
+      if (responseMap == null) return;
+      print('responseMap: ${responseMap.data.keys}');
+
+      final traffic = responseMap['traffic_and_engagement'];
+      print('traffic ${traffic?.countries}');
+
+      final countries = traffic?.countries;
+      print('countriesRaw ${countries?.data.keys}');
+
+      if (countries == null) return;
+      for (final countryEntry in countries.data.entries) {
+        final (country, data) = (countryEntry.key, countryEntry.value);
+        print('country $country');
+        print(
+          'country ${data.startDate} - ${data.endDate} | ${data.freshData}',
+        );
+      }
     });
   });
 }
