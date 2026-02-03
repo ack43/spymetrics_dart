@@ -209,4 +209,11 @@ class SpymetricsApiException implements Exception {
   @override
   String toString() =>
       'SpymetricsApiException($httpCode | $code)[$status]: $message';
+
+  Map<String, dynamic> toJson() => {
+    'httpCode': httpCode,
+    'status': status,
+    'code': code,
+    'message': message,
+  };
 }

@@ -62,7 +62,10 @@ class RequestDescribeData {
   factory RequestDescribeData.fromJson(Map<String, dynamic> json) =>
       _$RequestDescribeDataFromJson(json);
 
-  Map<String, dynamic> toJson() => _$RequestDescribeDataToJson(this);
+  // Map<String, dynamic> toJson() => _$RequestDescribeDataToJson(this);
+  Map<String, dynamic> toJson() {
+    return {'countries': countries?.toJson()};
+  }
 }
 
 //
@@ -94,13 +97,16 @@ class DescribeData {
 //
 //
 @JsonSerializable(fieldRename: FieldRename.snake)
-class DescribeDataResponse {
+class DescribeResponse {
   final DescribeData? response;
 
-  const DescribeDataResponse({this.response});
+  const DescribeResponse({this.response});
 
-  factory DescribeDataResponse.fromJson(Map<String, dynamic> json) =>
+  factory DescribeResponse.fromJson(Map<String, dynamic> json) =>
       _$DescribeDataResponseFromJson(json);
 
-  Map<String, dynamic> toJson() => _$DescribeDataResponseToJson(this);
+  // Map<String, dynamic> toJson() => _$DescribeDataResponseToJson(this);
+  Map<String, dynamic> toJson() {
+    return {'response': response?.toJson()};
+  }
 }

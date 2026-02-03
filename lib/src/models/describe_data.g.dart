@@ -39,14 +39,12 @@ Map<String, dynamic> _$RequestDescribeDataToJson(
   RequestDescribeData instance,
 ) => <String, dynamic>{'countries': instance.countries};
 
-DescribeDataResponse _$DescribeDataResponseFromJson(
-  Map<String, dynamic> json,
-) => DescribeDataResponse(
-  response: json['response'] == null
-      ? null
-      : DescribeData.fromJson(json['response'] as Map<String, dynamic>),
-);
+DescribeResponse _$DescribeDataResponseFromJson(Map<String, dynamic> json) =>
+    DescribeResponse(
+      response: json['response'] == null
+          ? null
+          : DescribeData.fromJson(json['response'] as Map<String, dynamic>),
+    );
 
-Map<String, dynamic> _$DescribeDataResponseToJson(
-  DescribeDataResponse instance,
-) => <String, dynamic>{'response': instance.response};
+Map<String, dynamic> _$DescribeDataResponseToJson(DescribeResponse instance) =>
+    <String, dynamic>{'response': instance.response};

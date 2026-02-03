@@ -52,9 +52,9 @@ abstract class TotalTrafficApi {
 
   ///////////////////////////////////////////////////////
   ///
-  // GET Desktop Visits [Describe]
+  // GET tital Visits [/describe]
   @GET('/v1/website/{domain}/total-traffic-and-engagement/describe')
-  Future<DescribeDataResponse> describe(
+  Future<DescribeResponse> describe(
     @Path('domain') String domain, {
     @Queries() SpymetricsRequest? request,
   });

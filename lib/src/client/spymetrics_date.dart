@@ -26,19 +26,17 @@ class SpymetricsDate {
   int get month => date!.month;
   String get yearMonth => '$year-${month.toString().padLeft(2, '0')}';
 
-  SpymetricsDate add(int months) {
-    date!.add(Duration(days: 31 * months));
-    return this;
+  SpymetricsDate addMonths(int months) {
+    final newYear = year + ((month - 1 + months) ~/ 12);
+    final newMonth = ((month - 1 + months) % 12) + 1;
+
+    return SpymetricsDate(DateTime(newYear, newMonth, date!.day));
   }
 
-  SpymetricsDate subtract(int months) {
-    date!.subtract(Duration(days: 31 * months));
-    return this;
-  }
+  SpymetricsDate subtractMonths(int months) => addMonths(-months);
 
-  SpymetricsDate inc() => add(1);
-
-  SpymetricsDate dec() => subtract(1);
+  SpymetricsDate inc() => addMonths(1);
+  SpymetricsDate dec() => subtractMonths(1);
 
   String toJson() => yearMonth;
 

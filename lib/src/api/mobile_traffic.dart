@@ -14,7 +14,7 @@ abstract class MobileTrafficApi {
   factory MobileTrafficApi(Dio dio, {String baseUrl}) = _MobileTrafficApi;
 
   // GET Visits
-  @GET('/v1/website/{domain}/mobile-web//visits')
+  @GET('/v1/website/{domain}/mobile-web/visits')
   Future<VisitsResponse> visits(
     @Path('domain') String domain, {
     @Queries() SpymetricsRequest? request,
@@ -50,9 +50,9 @@ abstract class MobileTrafficApi {
 
   ///////////////////////////////////////////////////////
   ///
-  // GET Desktop Visits [Describe]
+  // GET Mobile Web Visits [/describe]
   @GET('/v1/website/{domain}/mobile-web/describe')
-  Future<DescribeDataResponse> describe(
+  Future<DescribeResponse> describe(
     @Path('domain') String domain, {
     @Queries() SpymetricsRequest? request,
   });
